@@ -57,3 +57,19 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+#result-btn{
+    display: none;
+    background-color: Tomato ;
+}
+
+
+
+table {
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left; /* Align text to the left */
+}

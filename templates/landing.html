@@ -42,8 +42,37 @@
         <div class="container">
             <button id="process-btn">Process</button>
             <div id="progress-div"></div>
+            <div id="result-div">
+                <a href="/result">
+                    <button id="result-btn">View Result</button>
+                </a>
+            </div>
         </div>
         
+
+        <!-- RESULT TITLE + TABLE -->
+        {% if result %}
+        <h2>Analysis Result</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dic in result %}
+                <tr>
+                    <td styles="text-align: left">{{ dic.Question }}</td>
+                    <td>{{ dic.Answer }}</td>
+                    <td>{{ dic.Source }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
     </div>
 
     <!-- <script>
@@ -70,6 +99,8 @@
     </script> -->
 
 
+
+
     
     </div>
 
@@ -90,6 +121,8 @@
                         // Enable the process button once the task is complete
                         document.getElementById("process-btn").disabled = false;
                         document.getElementById("progress-div").innerHTML = "Task Complete";
+                        // show result button
+                        document.getElementById("result-btn").style.display= "inline";
                     }
                 })
                 .catch(function(error) {
@@ -112,7 +145,7 @@
             updateProgress();
     
             // Make an API call to start the long-running process
-            fetch(API_URL + "/start", {
+            fetch(API_URL + "/analyze", {
                     method: "POST",
                     body: formData
                 })
@@ -121,6 +154,9 @@
                     
                     // Set the task completion flag to true
                     isTaskComplete = true;
+
+                    // show result button
+                    document.getElementById("result-btn").style.display= "inline";
                 })
                 .catch(function(error) {
                     console.log("Error:", error);
