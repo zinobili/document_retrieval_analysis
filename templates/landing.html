@@ -114,8 +114,8 @@
                     return response.json();
                 })
                 .then(function(data) {
-                    document.getElementById("progress-div").innerHTML = "Processing...: " + data.progress;
-                    if (data.progress < 100 && !isTaskComplete) { // Check if task is complete before continuing updates
+                    document.getElementById("progress-div").innerHTML = "Processing: " + data.progress;
+                    if (data.progress != "completed" && !isTaskComplete) { // Check if task is complete before continuing updates
                         setTimeout(updateProgress, 1000); // Repeat the request after 1 second
                     } else {
                         // Enable the process button once the task is complete
@@ -134,6 +134,7 @@
             // Get the selected file and form data
             var file = document.getElementById("pdf-upload").files[0];
             var formData = new FormData(document.getElementById("company-form"));
+            formData.append("file", file)
     
             // Reset the task completion flag
             isTaskComplete = false;

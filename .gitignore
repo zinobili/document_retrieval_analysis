@@ -1,2 +1,5 @@
 ## cache
 __pycache__/**
+
+## API key
+config/key.txt
