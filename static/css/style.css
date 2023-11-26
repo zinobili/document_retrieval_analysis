@@ -12,6 +12,28 @@ body {
     align-items: center;
 }
 
+.parallel-contianer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.container-left-align {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: left;
+}
+
+.container-sub {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    padding-top: 25px; /* Adjust the top padding as needed */
+}
+
 .image-contianer {
     margin-top: 50px;
     margin-bottom: 30px;
@@ -33,6 +55,11 @@ p {
 
 .form-group {
     margin-bottom: 20px;
+}
+
+#company-form{
+    display: flex;
+    flex-direction: row;
 }
 
 label {
@@ -63,7 +90,11 @@ button:hover {
     background-color: Tomato ;
 }
 
-
+#compare-btn {
+    border-radius: 10px; /* Adjust the value to control the roundness */
+    /* padding-bottom: 20px; */
+    background-color: #006400; /* Use your preferred shade of green here */
+}
 
 table {
     border-collapse: collapse;

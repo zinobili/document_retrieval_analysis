@@ -15,29 +15,85 @@
 
     <div class="container">
         <div class="image-contianer">
-            <img src="../static/image/icon.jpeg" alt="Your Photo" width="200" height="200">
+            <!-- <img src="../static/image/icon.jpeg" alt="Your Photo" width="200" height="200"> -->
+            <img src="../static/image/cover3.jpg" alt="Your Photo" width="600" height="300">
         </div>
         <h1>ESG Document Retrieval Analysis Demo</h1>
         <p>Welcome to the ESG Document Retrieval Analysis Demo. This product allows you to analyze ESG-related documents for a specific company.</p>
         
-        <div class="form-group">
-            <!-- <h2>Upload PDF File</h2> -->
-            <input type="file" id="pdf-upload" accept=".pdf">
-        </div>
-        
-        <div class="form-group">
-            <!-- <h2>Company Analysis Form</h2> -->
-            <form id="company-form">
-                <label for="company-name">Company Name:</label>
-                <input type="text" id="company-name" name="company-name" required>
+        {% if compare %}
+        <script>
+            var process_second_file = true;
+        </script>
+
+        <div class="parallel-contianer">
+            
+            <div class="container-sub">
+                <div class="form-group">
+                    <!-- <h2>Upload PDF File</h2> -->
+                    <input type="file" id="pdf-upload" accept=".pdf">
+                </div>
                 
-                <!-- <label for="start-date">Start Date:</label>
-                <input type="date" id="start-date" name="start-date" required>
+                <div class="form-group">
+                    <!-- <h2>Company Analysis Form</h2> -->
+                    <form id="company-form">
+                        <label for="company-name">Company A Name:</label>
+                        <p>&nbsp&nbsp</p>
+                        <input type="text" id="company-name" name="company-name" required>
+                    </form>
+                </div>
+            </div>
+
+            <div class="container-sub">
+                <div class="form-group">
+                    <!-- <h2>Upload PDF File</h2> -->
+                    <input type="file" id="pdf-upload2" accept=".pdf">
+                </div>
                 
-                <label for="end-date">End Date:</label>
-                <input type="date" id="end-date" name="end-date" required> -->
-            </form>
+                <div class="form-group">
+                    <!-- <h2>Company Analysis Form</h2> -->
+                    <form id="company-form">
+                        <label for="company-name">Company B Name:</label>
+                        <p>&nbsp&nbsp</p>
+                        <input type="text" id="company-name2" name="company-name" required>
+                    </form>
+                </div>
+            </div>
+
         </div>
+
+        {% else %}
+
+        <script>
+            var process_second_file = false;
+        </script>
+
+        <div class="container">
+            <a href="/comparison">
+                <button id="compare-btn">Compare Two Companies</button>
+            </a>
+        </div>
+
+        <div class="container-sub">
+
+            <div class="form-group">
+                <!-- <h2>Upload PDF File</h2> -->
+                <input type="file" id="pdf-upload" accept=".pdf">
+            </div>
+            
+            <div class="form-group">
+                <!-- <h2>Company Analysis Form</h2> -->
+                <form id="company-form">
+                    <label for="company-name">Company Name:</label>
+                    <p>&nbsp&nbsp</p>
+                    <input type="text" id="company-name" name="company-name" required>
+                </form>
+            </div>
+        </div>
+
+        {% endif %}
+
+
         
         <div class="container">
             <button id="process-btn">Process</button>
@@ -53,59 +109,76 @@
         <!-- RESULT TITLE + TABLE -->
         {% if result %}
         <h2>Analysis Result</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Question</th>
-                    <th>Answer</th>
-                    <th>Source</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for dic in result %}
-                <tr>
-                    <td styles="text-align: left">{{ dic.Question }}</td>
-                    <td>{{ dic.Answer }}</td>
-                    <td>{{ dic.Source }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        
+        {% if multi==0%}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dic in result %}
+                    <tr>
+                        <td styles="text-align: left">{{ dic.Question }}</td>
+                        {% if dic.Answer=="FALSE" %}
+                            <td style="color:Tomato;">{{ dic.Answer }}</td>
+                        {% else %}
+                            <td>{{ dic.Answer }}</td>
+                        {% endif %}
+                        <td>{{ dic.Source }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+        {% else %}
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer - A</th>
+                        <th>Source - A</th>
+                        <th>Answer - B</th>
+                        <th>Source - B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dic in result %}
+                    <tr>
+                        <td styles="text-align: left">{{ dic.Question }}</td>
+
+                        {% if dic.Answer_A=="FALSE" %}
+                            <td style="color:Tomato;">{{ dic.Answer_A }}</td>
+                        {% else %}
+                            <td>{{ dic.Answer_A }}</td>
+                        {% endif %}
+                        <td>{{ dic.Source_A }}</td>
+
+                        {% if dic.Answer_B=="FALSE" %}
+                            <td style="color:Tomato;">{{ dic.Answer_B }}</td>
+                        {% else %}
+                            <td>{{ dic.Answer_B }}</td>
+                        {% endif %}
+                        <td>{{ dic.Source_B }}</td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
         {% endif %}
 
     </div>
-
-    <!-- <script>
-        // JavaScript code to handle the button click event and make API calls
-        document.getElementById("process-btn").addEventListener("click", function() {
-            // Get the selected file and form data
-            var file = document.getElementById("pdf-upload").files[0];
-            var formData = new FormData(document.getElementById("company-form"));
-
-            // Make an API call using fetch or XMLHttpRequest
-            // Replace "API_URL" with the actual URL of your Flask API endpoint
-            fetch("API_URL", {
-                method: "POST",
-                body: formData
-            })
-            .then(function(response) {
-                // Handle the response from the API call
-                // You can display a success message or process the returned data
-            })
-            .catch(function(error) {
-                // Handle any errors that occur during the API call
-            });
-        });
-    </script> -->
-
-
-
 
     
     </div>
 
     <script>
-        // var API_URL = "http://localhost:5000"; // Replace with your server's IP address or hostname
         var isTaskComplete = false; // Flag variable to track task completion
     
         function updateProgress() {
@@ -135,7 +208,7 @@
             var file = document.getElementById("pdf-upload").files[0];
             var formData = new FormData(document.getElementById("company-form"));
             formData.append("file", file)
-    
+            
             // Reset the task completion flag
             isTaskComplete = false;
     
@@ -145,39 +218,51 @@
             // Start updating the progress status
             updateProgress();
     
-            // Make an API call to start the long-running process
-            fetch(API_URL + "/analyze", {
+            // according to whehter doing comparison to decide which api to call
+            if (process_second_file==false) {
+
+                // Make an API call to start the long-running process
+                fetch(API_URL + "/analyze", {
                     method: "POST",
                     body: formData
                 })
                 .then(function(response) {
                     // Handle the response from the API call
-                    
                     // Set the task completion flag to true
                     isTaskComplete = true;
-
                     // show result button
                     document.getElementById("result-btn").style.display= "inline";
                 })
                 .catch(function(error) {
                     console.log("Error:", error);
                 });
+
+            } else {
+
+                var file2 = document.getElementById("pdf-upload2").files[0];
+                formData.append("file2", file2)
+
+                // Make an API call to start the long-running process
+                fetch(API_URL + "/analyze_multi", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(function(response) {
+                    // Handle the response from the API call
+                    // Set the task completion flag to true
+                    isTaskComplete = true;
+                    // show result button
+                    document.getElementById("result-btn").style.display= "inline";
+                })
+                .catch(function(error) {
+                    console.log("Error:", error);
+                });
+
+            }
+
+
         });
     </script>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
-    <script>
-        var socket = io.connect(API_URL); // Replace with your server's IP address or hostname
-
-        socket.on("connect", function() {
-            console.log("WebSocket connection established");
-        });
-
-        socket.on("process_complete", function(data) {
-            console.log("Processing task finished:", data.message);
-            // Perform any necessary actions or update the UI to indicate task completion
-        });
-    </script> -->
     
 </body>
 </html>

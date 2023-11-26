@@ -3,3 +3,12 @@ __pycache__/**
 
 ## API key
 config/key.txt
+
+## result file
+static/working_file/result/*.csv
+
+## vector DB
+static/working_file/vectorDB/*_faiss_index/
+
+## upload file
+static/uploads/*

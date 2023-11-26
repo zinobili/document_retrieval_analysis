@@ -148,7 +148,8 @@ def knowledge_extraction(query_search,query_ask,require_format,docsearch,need_re
 #     print(rst)
 #     print(type(rst))
     try:
-        rst={'answer':rst.split(',')[0],'reason':','.join(rst.split(',')[1:])}
+        rst={'answer':rst.split(',')[0].replace('(','').replace(')','').replace('\'','').replace('\"',''),
+             'reason':','.join(rst.split(',')[1:])}
     except:
         rst={'answer':rst,'reason':'NA'}
     if not isinstance(rst,dict):
