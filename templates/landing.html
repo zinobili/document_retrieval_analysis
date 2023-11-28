@@ -19,6 +19,11 @@
             <img src="../static/image/cover3.jpg" alt="Your Photo" width="600" height="300">
         </div>
         <h1>ESG Document Retrieval Analysis Demo</h1>
+        {% if compare %}
+        <h2>Multi-company ESG Comparison</h2>
+        {% else %}
+        <h2>Single Company Analysis</h2>
+        {% endif %}
         <p>Welcome to the ESG Document Retrieval Analysis Demo. This product allows you to analyze ESG-related documents for a specific company.</p>
         
         {% if compare %}
@@ -70,7 +75,7 @@
 
         <div class="container">
             <a href="/comparison">
-                <button id="compare-btn">Compare Two Companies</button>
+                <button id="compare-btn">Switch to Company Comparison</button>
             </a>
         </div>
 
